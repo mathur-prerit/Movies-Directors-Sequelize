@@ -1,11 +1,15 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 
-const Directors = require('../models/directors');
+const db = require('../models/index');
+const logger = require('../logs/winston');
+
+const Directors = db.Directors;
 
 //  Get all directors
 const allDirectors = (req, res) => {
-  Directors.getAllDirectors()
+  // Directors.getAllDirectors()
+  Directors.findAll()
     .then((results) => {
       /* results.forEach((row) => {
         response.write(`${row.id} ${row.d_name}\n`);
@@ -18,14 +22,14 @@ const allDirectors = (req, res) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
       res.sendStatus(500);
     });
 };
 
 // Get director by id
 const directorByID = (req, res) => {
-  Directors.getDirectorsByID(req.params.directorid)
+  Directors.findOne({ where: { id: req.params.directorid } })
     .then((results) => {
       if (Object.values(results).length !== 0) {
         res.send(results);
@@ -34,24 +38,24 @@ const directorByID = (req, res) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
       res.sendStatus(500);
     });
 };
 
 // Deleting director by id
 const deleteDirector = (req, res) => {
-  Directors.delDirector(req.params.directorid)
+  Directors.destroy({ where: { id: req.params.directorid } })
     .then((results) => {
-      //  console.log(typeof results);
-      if (results === 0) {
-        res.sendStatus(404);
-      } else {
+      //  logger.error(typeof results);
+      if (results.affectedRows) {
         res.sendStatus(410);
+      } else {
+        res.sendStatus(404);
       }
     })
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
       res.sendStatus(500);
     });
 };
@@ -62,7 +66,7 @@ const addDirector = (req, res) => {
   const dir = {
     name: body.name,
   };
-  Directors.postDirector(dir.name)
+  Directors.create({ dname: dir.name })
     .then((results) => {
       if (Object.values(results).length === 0) {
         res.send(400);
@@ -72,7 +76,7 @@ const addDirector = (req, res) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
       res.sendStatus(409);
     });
 };
@@ -83,9 +87,9 @@ const updateDirector = (req, res) => {
   const dir = {
     name: body.name,
   };
-  Directors.putDirector(req.params.directorid, dir.name)
+  Directors.update({ dname: dir.name }, { where: { id: req.params.directorid } })
     .then((results) => {
-      console.log(JSON.stringify(results[0]));
+      //  console.log(JSON.stringify(results[0]));
       if (results[0] === 0) {
         res.sendStatus(403);
       } else {
@@ -93,7 +97,7 @@ const updateDirector = (req, res) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
       res.sendStatus(409);
     });
 };
