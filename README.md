@@ -10,15 +10,15 @@ for directors: <code>localhost:8080/api/directors/</code>
 I used Postman for requesting functions.
 
 Dependencies:-
-<code>npm install nodemon -g</code>
-<code>npm i -D eslint eslint-config-airbnb-base eslint-plugin-import</code>
-<code>npm install sequelize</code>
-<code>npm install sequelize-cli</code>
-<code>npm install mysql</code>
-<code>npm install mysql2</code>
-<code>npm install express --save</code>
-<code>npm install morgan --save</code>
-<code>npm install winston --save</code>
+<code>npm install nodemon -g</code>     
+<code>npm i -D eslint eslint-config-airbnb-base eslint-plugin-import</code>     
+<code>npm install sequelize</code>      
+<code>npm install sequelize-cli</code>      
+<code>npm install mysql</code>      
+<code>npm install mysql2</code>     
+<code>npm install express --save</code>      
+<code>npm install morgan --save</code>      
+<code>npm install winston --save</code>     
 
 Steps:-
 1. Run <code>sequelize init</code>

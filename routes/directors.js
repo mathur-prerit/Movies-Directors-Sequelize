@@ -22,7 +22,7 @@ const allDirectors = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in getting director by id` });
       res.sendStatus(500);
     });
 };
@@ -38,7 +38,7 @@ const directorByID = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in getting director by id` });
       res.sendStatus(500);
     });
 };
@@ -55,7 +55,7 @@ const deleteDirector = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in deleting director by id` });
       res.sendStatus(500);
     });
 };
@@ -76,7 +76,7 @@ const addDirector = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in adding new director` });
       res.sendStatus(409);
     });
 };
@@ -97,7 +97,7 @@ const updateDirector = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in updating director by id` });
       res.sendStatus(409);
     });
 };

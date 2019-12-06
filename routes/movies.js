@@ -23,7 +23,7 @@ const allMovies = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in getting all movies` });
       res.sendStatus(500);
     });
 };
@@ -39,7 +39,7 @@ const movieByID = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error.stack);
+      logger.error({ message: `${error.stack} in getting movie by id` });
       res.sendStatus(500);
     });
 };
@@ -56,7 +56,7 @@ const deleteMovie = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in deleting movie by id` });
       res.sendStatus(500);
     });
 };
@@ -79,7 +79,7 @@ const addMovie = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in adding a new movie` });
       res.sendStatus(409);
     });
 };
@@ -102,7 +102,7 @@ const updateMovie = (req, res) => {
       }
     })
     .catch((error) => {
-      logger.error(error);
+      logger.error({ message: `${error} in updating movie by id` });
       res.sendStatus(409);
     });
 };
