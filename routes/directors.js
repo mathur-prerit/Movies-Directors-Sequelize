@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 
@@ -29,35 +30,48 @@ const allDirectors = (req, res) => {
 
 // Get director by id
 const directorByID = (req, res) => {
-  Directors.findOne({ where: { id: req.params.directorid } })
-    .then((results) => {
-      if (Object.values(results).length !== 0) {
-        res.send(results);
-      } else {
-        res.sendStatus(404);
-      }
-    })
-    .catch((error) => {
-      logger.error({ message: `${error} in getting director by id` });
-      res.sendStatus(500);
-    });
+  if (Number.isInteger(parseInt(req.params.directorid)) === false) {
+    console.log('number not provided');
+    res.sendStatus(412);
+    logger.error({ message: 'Incorrect parameter passed' });
+  } else {
+    console.log('Prarameter validated');
+    Directors.findOne({ where: { id: req.params.directorid } })
+      .then((results) => {
+        if (results !== null) {
+          res.send(results);
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((error) => {
+        logger.error({ message: `${error} in getting director by id` });
+        res.sendStatus(500);
+      });
+  }
 };
 
 // Deleting director by id
 const deleteDirector = (req, res) => {
-  Directors.destroy({ where: { id: req.params.directorid } })
-    .then((results) => {
-      //  logger.error(typeof results);
-      if (results.affectedRows) {
-        res.sendStatus(410);
-      } else {
-        res.sendStatus(404);
-      }
-    })
-    .catch((error) => {
-      logger.error({ message: `${error} in deleting director by id` });
-      res.sendStatus(500);
-    });
+  if (Number.isInteger(parseInt(req.params.directorid)) === false) {
+    console.log('number not provided');
+    res.sendStatus(412);
+    logger.error({ message: 'Incorrect parameter passed' });
+  } else {
+    console.log('Prarameter validated');
+    Directors.destroy({ where: { id: req.params.directorid } })
+      .then((results) => {
+        if (results === 1) {
+          res.sendStatus(410);
+        } else {
+          res.sendStatus(404);
+        }
+      })
+      .catch((error) => {
+        logger.error({ message: `${error} in deleting director by id` });
+        res.sendStatus(500);
+      });
+  }
 };
 
 // Adding a new director
@@ -83,23 +97,30 @@ const addDirector = (req, res) => {
 
 // Updating a new director
 const updateDirector = (req, res) => {
-  const body = req.body;
-  const dir = {
-    name: body.name,
-  };
-  Directors.update({ dname: dir.name }, { where: { id: req.params.directorid } })
-    .then((results) => {
+  if (Number.isInteger(parseInt(req.params.directorid)) === false) {
+    console.log('number not provided');
+    res.sendStatus(412);
+    logger.error({ message: 'Incorrect parameter passed' });
+  } else {
+    console.log('Prarameter validated');
+    const body = req.body;
+    const dir = {
+      name: body.name,
+    };
+    Directors.update({ dname: dir.name }, { where: { id: req.params.directorid } })
+      .then((results) => {
       //  console.log(JSON.stringify(results[0]));
-      if (results[0] === 0) {
-        res.sendStatus(403);
-      } else {
-        res.sendStatus(202);
-      }
-    })
-    .catch((error) => {
-      logger.error({ message: `${error} in updating director by id` });
-      res.sendStatus(409);
-    });
+        if (results[0] === 0) {
+          res.sendStatus(403);
+        } else {
+          res.sendStatus(202);
+        }
+      })
+      .catch((error) => {
+        logger.error({ message: `${error} in updating director by id` });
+        res.sendStatus(409);
+      });
+  }
 };
 
 module.exports = {
